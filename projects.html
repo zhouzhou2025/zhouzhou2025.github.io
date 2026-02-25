@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目实战 - 霸都丶傲天的个人网站</title>
+    <title>项目实战 - 百炼周周的个人网站</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -88,7 +88,7 @@
 <body>
 
 <header>
-    <h1>霸都丶傲天的个人网站</h1>
+    <h1>百炼周周的个人网站</h1>
 </header>
 
 <nav>
@@ -140,6 +140,9 @@
             
             gridHtml += '</div>';
             document.getElementById('projects-content').innerHTML = gridHtml;
+            
+            // 设置页面标题
+            document.title = '项目实战 - 百炼周周的个人网站';
         })
         .catch(error => {
             console.error('Error loading markdown:', error);

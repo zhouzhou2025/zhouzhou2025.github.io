@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>学习经历 - 霸都丶傲天的个人网站</title>
+    <title>学习经历 - 百炼周周的个人网站</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -66,7 +66,7 @@
 <body>
 
 <header>
-    <h1>霸都丶傲天的个人网站</h1>
+    <h1>百炼周周的个人网站</h1>
 </header>
 
 <nav>
@@ -89,7 +89,16 @@
     fetch('templates/education.md')
         .then(response => response.text())
         .then(markdown => {
-            document.getElementById('education-content').innerHTML = marked.parse(markdown);
+            const parsedContent = marked.parse(markdown);
+            document.getElementById('education-content').innerHTML = parsedContent;
+            
+            // 设置页面标题为Markdown中的第一个h1标题
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = parsedContent;
+            const firstH1 = tempDiv.querySelector('h1');
+            if (firstH1) {
+                document.title = firstH1.textContent + ' - 百炼周周的个人网站';
+            }
         })
         .catch(error => {
             console.error('Error loading markdown:', error);
