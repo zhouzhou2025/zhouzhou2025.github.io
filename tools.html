@@ -90,6 +90,60 @@
             background-color: #f0f0f0;
             border-radius: 4px;
         }
+        /* Python代码运行器样式 */
+        .python-runner {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .code-input {
+            width: 100%;
+            height: 150px;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        .output-area {
+            width: 100%;
+            height: 150px;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #000;
+            color: #00ff00;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .run-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .run-btn:hover {
+            background-color: #45a049;
+        }
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
     </style>
 </head>
 <body>
@@ -132,6 +186,19 @@
             <div id="result"></div>
         </div>
         
+        <h3>Python代码运行器</h3>
+        <div class="python-runner">
+            <textarea id="codeInput" class="code-input" placeholder="在此输入Python代码...">print("Hello, World!")
+x = 5
+y = 10
+print(f"x + y = {x + y}")</textarea>
+            
+            <button class="run-btn" onclick="runPythonCode()">运行代码</button>
+            <button class="clear-btn" onclick="clearOutput()">清空输出</button>
+            
+            <div id="outputArea" class="output-area"></div>
+        </div>
+        
         <h3>其他实用工具</h3>
         <ul class="tool-list">
             <li>✅ 单位转换器 - 支持各种常用单位之间的转换</li>
@@ -164,6 +231,53 @@
             <p><strong>总还款额:</strong> ${totalPayment.toFixed(2)} 元</p>
             <p><strong>总利息:</strong> ${totalInterest.toFixed(2)} 元</p>
         `;
+    }
+    
+    // Python代码运行器功能
+    function runPythonCode() {
+        const code = document.getElementById('codeInput').value;
+        const outputArea = document.getElementById('outputArea');
+        
+        try {
+            // 创建一个iframe来安全地执行代码
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            // 在iframe中执行代码并捕获输出
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            
+            // 重定向console.log到输出区域
+            const originalLog = console.log;
+            let output = '';
+            
+            console.log = function(...args) {
+                output += args.join(' ') + '\n';
+                originalLog.apply(console, args);
+            };
+            
+            try {
+                // 执行用户代码
+                iframe.contentWindow.eval(code);
+                
+                // 显示输出
+                outputArea.textContent = output || '代码已执行（无输出）';
+            } catch (error) {
+                outputArea.textContent = '错误: ' + error.message;
+            } finally {
+                // 恢复原始console.log
+                console.log = originalLog;
+                document.body.removeChild(iframe);
+            }
+        } catch (error) {
+            outputArea.textContent = '执行错误: ' + error.message;
+        }
+    }
+    
+    function clearOutput() {
+        document.getElementById('outputArea').textContent = '';
+        document.getElementById('codeInput').value = '';
     }
 </script>
 
