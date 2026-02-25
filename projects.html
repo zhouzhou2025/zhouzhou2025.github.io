@@ -45,8 +45,10 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        h2 {
+        h1, h2, h3 {
             color: #333;
+        }
+        h1 {
             border-bottom: 2px solid #333;
             padding-bottom: 10px;
         }
@@ -65,10 +67,6 @@
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .project-card h3 {
-            color: #333;
-            margin-top: 0;
-        }
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
@@ -81,6 +79,9 @@
             padding: 3px 8px;
             border-radius: 3px;
             font-size: 12px;
+        }
+        strong {
+            color: #555;
         }
     </style>
 </head>
@@ -99,47 +100,52 @@
 </nav>
 
 <div class="container">
-    <section id="projects">
-        <h2>项目实战</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>电商平台管理系统</h3>
-                <p>一个完整的电商后台管理系统，包含商品管理、订单处理、用户管理等功能模块。</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">MongoDB</span>
-                    <span class="tech-tag">Redux</span>
-                </div>
-                <p><strong>职责：</strong>负责前端架构设计和核心功能开发</p>
-            </div>
-            
-            <div class="project-card">
-                <h3>移动端社交应用</h3>
-                <p>基于React Native开发的跨平台社交应用，支持实时聊天、朋友圈等功能。</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">React Native</span>
-                    <span class="tech-tag">Firebase</span>
-                    <span class="tech-tag">WebSocket</span>
-                    <span class="tech-tag">Redux</span>
-                </div>
-                <p><strong>职责：</strong>主导移动端开发，实现核心交互功能</p>
-            </div>
-            
-            <div class="project-card">
-                <h3>数据分析可视化平台</h3>
-                <p>企业级数据可视化平台，提供多种图表展示和数据分析功能。</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Vue.js</span>
-                    <span class="tech-tag">D3.js</span>
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">ECharts</span>
-                </div>
-                <p><strong>职责：</strong>负责数据可视化组件开发和性能优化</p>
-            </div>
-        </div>
+    <section id="projects-content">
+        <!-- Markdown内容将通过JavaScript动态加载 -->
     </section>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    // 加载并渲染Markdown内容
+    fetch('templates/projects.md')
+        .then(response => response.text())
+        .then(markdown => {
+            // 解析Markdown并转换为HTML
+            const html = marked.parse(markdown);
+            
+            // 将内容包装在项目卡片中
+            const projects = html.split('<h2')[1]; // 获取第一个h2之后的内容
+            const projectItems = projects.split('<h3>').slice(1); // 分割各个项目
+            
+            let gridHtml = '<div class="project-grid">';
+            
+            projectItems.forEach(item => {
+                const title = item.split('</h3>')[0];
+                const content = item.split('</h3>')[1].split('<p><strong>技术栈：</strong>')[0];
+                const techStack = item.includes('技术栈') ? 
+                    item.split('<p><strong>技术栈：</strong>')[1].split('</p>')[0] : '';
+                const responsibility = item.includes('职责') ? 
+                    item.split('<p><strong>职责：</strong>')[1].split('</p>')[0] : '';
+                
+                gridHtml += `
+                <div class="project-card">
+                    <h3>${title}</h3>
+                    <p>${content.trim()}</p>
+                    ${techStack ? `<div class="tech-stack">${techStack.split(', ').map(tag => 
+                        `<span class="tech-tag">${tag}</span>`).join('')}</div>` : ''}
+                    ${responsibility ? `<p><strong>职责：</strong>${responsibility}</p>` : ''}
+                </div>`;
+            });
+            
+            gridHtml += '</div>';
+            document.getElementById('projects-content').innerHTML = gridHtml;
+        })
+        .catch(error => {
+            console.error('Error loading markdown:', error);
+            document.getElementById('projects-content').innerHTML = '<p>内容加载失败</p>';
+        });
+</script>
 
 </body>
 </html>

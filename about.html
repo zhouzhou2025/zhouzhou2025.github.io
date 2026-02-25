@@ -45,10 +45,21 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        h2 {
+        h1, h2, h3 {
             color: #333;
+        }
+        h1 {
             border-bottom: 2px solid #333;
             padding-bottom: 10px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        strong {
+            color: #555;
         }
     </style>
 </head>
@@ -67,13 +78,24 @@
 </nav>
 
 <div class="container">
-    <section id="about">
-        <h2>个人介绍</h2>
-        <p>大家好，我是霸都丶傲天，这是一个展示我个人经历和技术能力的网站。</p>
-        <p>我是一名热爱技术的开发者，专注于Web开发和移动应用开发。在这个网站中，您可以看到我的学习历程、工作经验以及参与的项目。</p>
-        <p>我相信持续学习和实践是提升技能的最佳途径，因此我不断挑战自己，学习新技术并应用于实际项目中。</p>
+    <section id="about-content">
+        <!-- Markdown内容将通过JavaScript动态加载 -->
     </section>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    // 加载并渲染Markdown内容
+    fetch('templates/about.md')
+        .then(response => response.text())
+        .then(markdown => {
+            document.getElementById('about-content').innerHTML = marked.parse(markdown);
+        })
+        .catch(error => {
+            console.error('Error loading markdown:', error);
+            document.getElementById('about-content').innerHTML = '<p>内容加载失败</p>';
+        });
+</script>
 
 </body>
 </html>
