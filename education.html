@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习经历 - 霸都丶傲天的个人网站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #333;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>霸都丶傲天的个人网站</h1>
+</header>
+
+<nav>
+    <a href="index.html">首页</a>
+    <a href="about.html">个人介绍</a>
+    <a href="work.html">工作学习记录</a>
+    <a href="projects.html">项目实战</a>
+    <a href="tools.html">实用工具</a>
+</nav>
+
+<div class="container">
+    <section id="education">
+        <h2>学习经历</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>计算机科学与技术学士学位</h3>
+                <p><strong>某某大学</strong> | 2015-2019</p>
+                <p>主修课程：数据结构、算法设计、数据库原理、计算机网络、软件工程等</p>
+            </div>
+            <div class="timeline-item">
+                <h3>前端开发专项课程</h3>
+                <p><strong>在线教育平台</strong> | 2020</p>
+                <p>深入学习HTML5、CSS3、JavaScript ES6+、React框架等现代前端技术</p>
+            </div>
+            <div class="timeline-item">
+                <h3>移动端开发认证</h3>
+                <p><strong>技术培训机构</strong> | 2021</p>
+                <p>获得Android和iOS开发相关认证，掌握跨平台开发技术</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

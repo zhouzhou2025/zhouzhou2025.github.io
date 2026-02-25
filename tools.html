@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实用工具 - 霸都丶傲天的个人网站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .calculator {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        #result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-radius: 4px;
+            border-left: 4px solid #4caf50;
+        }
+        .tool-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .tool-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>霸都丶傲天的个人网站</h1>
+</header>
+
+<nav>
+    <a href="index.html">首页</a>
+    <a href="about.html">个人介绍</a>
+    <a href="education.html">学习经历</a>
+    <a href="work.html">工作学习记录</a>
+    <a href="projects.html">项目实战</a>
+</nav>
+
+<div class="container">
+    <section id="tools">
+        <h2>实用工具</h2>
+        
+        <h3>房贷车贷计算器</h3>
+        <div class="calculator">
+            <label for="loanType">贷款类型:</label>
+            <select id="loanType">
+                <option value="house">房贷</option>
+                <option value="car">车贷</option>
+            </select>
+
+            <label for="loanAmount">贷款金额 (元):</label>
+            <input type="number" id="loanAmount" placeholder="请输入贷款金额">
+
+            <label for="interestRate">年利率 (%):</label>
+            <input type="number" id="interestRate" step="0.01" placeholder="请输入年利率">
+
+            <label for="loanTerm">贷款期限 (月):</label>
+            <input type="number" id="loanTerm" placeholder="请输入贷款期限">
+
+            <button onclick="calculateLoan()">计算</button>
+
+            <div id="result"></div>
+        </div>
+        
+        <h3>其他实用工具</h3>
+        <ul class="tool-list">
+            <li>✅ 单位转换器 - 支持各种常用单位之间的转换</li>
+            <li>✅ 密码强度检测器 - 帮助评估密码安全性</li>
+            <li>✅ 二维码生成器 - 快速生成各类二维码</li>
+            <li>✅ 时间管理工具 - 提高工作效率的番茄钟</li>
+        </ul>
+    </section>
+</div>
+
+<script>
+    function calculateLoan() {
+        const loanType = document.getElementById('loanType').value;
+        const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+        const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 / 12; // 月利率
+        const loanTerm = parseInt(document.getElementById('loanTerm').value);
+
+        if (isNaN(loanAmount) || isNaN(interestRate) || isNaN(loanTerm)) {
+            document.getElementById('result').innerHTML = '<p style="color: red;">请输入有效的数值</p>';
+            return;
+        }
+
+        const monthlyPayment = (loanAmount * interestRate * Math.pow(1 + interestRate, loanTerm)) / (Math.pow(1 + interestRate, loanTerm) - 1);
+        const totalPayment = monthlyPayment * loanTerm;
+        const totalInterest = totalPayment - loanAmount;
+
+        document.getElementById('result').innerHTML = `
+            <h4>${loanType === 'house' ? '房贷' : '车贷'}计算结果：</h4>
+            <p><strong>每月还款:</strong> ${monthlyPayment.toFixed(2)} 元</p>
+            <p><strong>总还款额:</strong> ${totalPayment.toFixed(2)} 元</p>
+            <p><strong>总利息:</strong> ${totalInterest.toFixed(2)} 元</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
